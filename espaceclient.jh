@@ -1,0 +1,66 @@
+entity Device {
+	deviceName String
+}
+
+entity DeviceParameter {
+	deviceParameter String
+}
+
+entity DeviceType {
+	deviceTypeName String
+}
+
+entity ExternalAccount {
+	url String,
+    login String,
+    password String
+}
+
+entity Profil {
+	firstName String,
+	lastName String,
+	email String,
+	phoneNumber String,
+	hireDate Instant
+}
+
+entity Account {
+	accountID String,
+	mail String,
+	password String
+}
+
+entity ProfilParameter {
+	parameterID String,
+    categorie String,
+    label String,
+    value String
+}
+
+
+relationship ManyToOne {
+    Profil{profils} to Account
+    Device{devices} to Account
+    ProfilParameter{parameters} to Profil 
+    ExternalAccount{externalAccounts} to Profil 
+}
+
+
+relationship ManyToMany {
+	DeviceType{deviceParameters} to DeviceParameter 
+}
+
+relationship OneToOne {
+	Device{type} to DeviceType
+}
+
+// Set pagination options
+paginate Account, Profil with infinite-scroll
+paginate Job with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with ubo
